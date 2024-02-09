@@ -86,7 +86,7 @@ function GameDisplay({playerNames}) {
     
       return (
           <div onClick={(e) => onScreenClick(e)} className="h-screen m-auto flex flex-col items-center justify-center">
-            <CountdownTimer className="select-none text-[256px] drop-shadow-xl" countdown={countdown}/>
+            <div className="select-none text-[25vw] drop-shadow-xl">{countdown}</div>
             <div className="absolute top-0 left-0 right-0 flex p-4">
               <div className="flex align-center gap-2">
                 <MinusIcon className="h-12" onClick={(e) => decreaseScore(e, 0)} />
