@@ -3,6 +3,7 @@ import CountdownTimer from './components/CountdownTimer';
 import Player from './components/Player';
 import TurnIndicator from './components/TurnIndicator';
 import Button from './components/Button';
+import { PlusIcon, MinusIcon } from '@heroicons/react/24/solid';
 
 function GameDisplay({playerNames}) {
     const [players, setPlayers] = useState([
@@ -87,9 +88,9 @@ function GameDisplay({playerNames}) {
           <div onClick={(e) => onScreenClick(e)} className="h-screen m-auto flex flex-col items-center justify-center">
             <CountdownTimer className="select-none text-[256px] drop-shadow-xl" countdown={countdown}/>
             <div className="absolute top-0 left-0 right-0 flex p-4">
-              <div className="flex gap-2">
-                <Button onClick={(e) => decreaseScore(e, 0)} label="-"/>
-                <Button onClick={(e) => increaseScore(e, 0)} label="+"/>
+              <div className="flex align-center gap-2">
+                <MinusIcon className="h-12" onClick={(e) => decreaseScore(e, 0)} />
+                <PlusIcon className="h-12" onClick={(e) => increaseScore(e, 0)} />
               </div>
               <div className='flex-grow flex justify-center gap-2'>
                 <Button onClick={toggleTimer} label={paused ? "Play" : "Pause"} />
@@ -98,8 +99,8 @@ function GameDisplay({playerNames}) {
                 <Button onClick={restart} label="Restart" />
               </div>
               <div className="flex gap-2">
-                <Button onClick={(e) => decreaseScore(e, 1)} label="-"/>
-                <Button onClick={(e) => increaseScore(e, 1)} label="+"/>
+                <MinusIcon className="h-12" onClick={(e) => decreaseScore(e, 1)} />
+                <PlusIcon className="h-12" onClick={(e) => increaseScore(e, 1)} />
               </div>
             </div>
             
