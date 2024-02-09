@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
-import CountdownTimer from './components/CountdownTimer';
 import Player from './components/Player';
 import TurnIndicator from './components/TurnIndicator';
 import Button from './components/Button';
 import { PlusIcon, MinusIcon } from '@heroicons/react/24/solid';
 
 function GameDisplay({playerNames}) {
+    const timerWarnAudio = new Audio('./timer_warn.wav');
+    const timerEndAudio = new Audio('./timer_end.wav');
+
     const [players, setPlayers] = useState([
         {
         name: playerNames[0],
@@ -79,6 +81,11 @@ function GameDisplay({playerNames}) {
     
         const intervalId = setInterval(() => {
           setCountdown(countdown - 1);
+          if (countdown - 1 == 0) {
+            timerEndAudio.play();
+          } else if (countdown - 1 <= 5) {
+            timerWarnAudio.play();
+          }
         }, 1000);
     
         return () => clearInterval(intervalId);
@@ -86,7 +93,7 @@ function GameDisplay({playerNames}) {
     
       return (
           <div onClick={(e) => onScreenClick(e)} className="h-screen m-auto flex flex-col items-center justify-center">
-            <div className="select-none text-[25vw] drop-shadow-xl">{countdown}</div>
+            <div className={"select-none text-[25vw] drop-shadow-xl " + (countdown <= 5 ? "text-red-600" : "")}>{countdown}</div>
             <div className="absolute top-0 left-0 right-0 flex p-4">
               <div className="flex align-center gap-2">
                 <MinusIcon className="h-12" onClick={(e) => decreaseScore(e, 0)} />
