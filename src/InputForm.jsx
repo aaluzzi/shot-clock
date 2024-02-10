@@ -1,5 +1,3 @@
-import Button from "./components/Button";
-
 function InputForm({setPlayerNames}) {
     const onSubmitForm = (e) => {
         e.preventDefault();
@@ -13,7 +11,9 @@ function InputForm({setPlayerNames}) {
                 <input className="p-2 text-base rounded-md bg-neutral-700" type="text" required placeholder="Player 1 Name" />
                 <div className="font-bold">VS.</div>
                 <input className="p-2 text-base rounded-md bg-neutral-700" type="text" required placeholder="Player 2 Name" />
-                <Button label="Create"></Button>
+                <button type="submit" className={"h-12 rounded-lg shadow-sm border border-transparent px-4 py-2.5 font-medium bg-gray-900 text-white cursor-pointer transition-colors duration-200 hover:border-indigo-500 focus:outline-none select-none"}>
+                    Create
+                </button>
             </form>
         </div>
     );
