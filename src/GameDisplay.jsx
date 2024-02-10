@@ -20,7 +20,7 @@ function GameDisplay({ playerNames }) {
             score: 0,
         }]);
     const [turnIndex, setTurnIndex] = useState(0);
-    const [countdown, setCountdown] = useState(30);
+    const [countdown, setCountdown] = useState(60);
     const [paused, setPaused] = useState(true);
 
     const switchTurns = () => {
@@ -55,7 +55,9 @@ function GameDisplay({ playerNames }) {
     }
 
     const restart = (e) => {
-        reset(e);
+        e.stopPropagation();
+        setPaused(true);
+        setCountdown(60);
         const newPlayers = [...players];
         newPlayers[0].hasExtension = true;
         newPlayers[1].hasExtension = true;
@@ -95,8 +97,6 @@ function GameDisplay({ playerNames }) {
         <div onClick={(e) => onScreenClick(e)} className="h-screen m-auto flex flex-col items-center justify-center">
             <div className={"select-none text-[25vmax] drop-shadow-xl " + (countdown <= 5 ? "text-red-600" : "")}>{countdown}</div>
             <div className="absolute align-center justify-center top-0 w-[300px] md:w-full flex flex-wrap p-3 gap-2">
-
-
                 <Button className="order-5 md:order-none" onClick={(e) => decreaseScore(e, 0)} icon={<MinusIcon className="h-full" />} />
                 <Button className="order-6 md:order-none" onClick={(e) => increaseScore(e, 0)} icon={<PlusIcon className="h-full" />} />
                 <div className="flex-1 hidden md:block"></div>
@@ -107,10 +107,7 @@ function GameDisplay({ playerNames }) {
                 <div className="flex-1 hidden md:block"></div>
                 <Button className="order-7 md:order-none" onClick={(e) => decreaseScore(e, 1)} icon={<MinusIcon className="h-full" />} />
                 <Button className="order-8 md:order-none" onClick={(e) => increaseScore(e, 1)} icon={<PlusIcon className="h-full" />} />
-
-
             </div>
-
             <div className='absolute left-0 bottom-0 right-0 flex'>
                 <Player className="" player={players[0]} />
                 <div className={"flex-grow flex items-center" + (turnIndex === 1 ? " rotate-180" : "")}>
