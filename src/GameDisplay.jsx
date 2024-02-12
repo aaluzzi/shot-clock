@@ -109,7 +109,7 @@ function GameDisplay({ playerNames }) {
                 <Button className="order-7 md:order-none" onClick={(e) => decreaseScore(e, 1)} icon={<MinusIcon className="h-full" />} />
                 <Button className="order-8 md:order-none" onClick={(e) => increaseScore(e, 1)} icon={<PlusIcon className="h-full" />} />
             </div>
-            <div className={"flex-1 flex items-center select-none font-bold text-[25vw] drop-shadow-xl " + (countdown <= 5 ? "text-red-600" : "")}>
+            <div className={"flex-1 flex items-center select-none font-bold text-[25vmax] drop-shadow-xl " + (countdown <= 5 ? "text-red-600" : "")}>
                 {countdown}
             </div>
             <div className='w-full flex flex-wrap p-4 gap-4 justify-between'>
