@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Player from './components/Player';
+import PlayerCard from './components/PlayerCard';
 import TurnIndicator from './components/TurnIndicator';
 import Button from './components/Button';
 import { PlusIcon, MinusIcon, PlayIcon, PauseIcon, ArrowPathIcon, ClockIcon, PowerIcon } from '@heroicons/react/24/solid';
@@ -94,9 +94,8 @@ function GameDisplay({ playerNames }) {
     }, [paused, countdown]);
 
     return (
-        <div onClick={(e) => onScreenClick(e)} className="h-screen m-auto flex flex-col items-center justify-center">
-            <div className={"select-none text-[25vmax] drop-shadow-xl " + (countdown <= 5 ? "text-red-600" : "")}>{countdown}</div>
-            <div className="absolute align-center justify-center top-0 w-[300px] md:w-full flex flex-wrap p-3 gap-2">
+        <div onClick={(e) => onScreenClick(e)} className="h-screen m-auto flex flex-col items-center ">
+            <div className="align-center justify-center top-0 w-[300px] md:w-full flex flex-wrap p-3 gap-2">
                 <Button className="order-5 md:order-none" onClick={(e) => decreaseScore(e, 0)} icon={<MinusIcon className="h-full" />} />
                 <Button className="order-6 md:order-none" onClick={(e) => increaseScore(e, 0)} icon={<PlusIcon className="h-full" />} />
                 <div className="flex-1 hidden md:block"></div>
@@ -108,12 +107,12 @@ function GameDisplay({ playerNames }) {
                 <Button className="order-7 md:order-none" onClick={(e) => decreaseScore(e, 1)} icon={<MinusIcon className="h-full" />} />
                 <Button className="order-8 md:order-none" onClick={(e) => increaseScore(e, 1)} icon={<PlusIcon className="h-full" />} />
             </div>
-            <div className='absolute left-0 bottom-0 right-0 flex'>
-                <Player className="" player={players[0]} />
-                <div className={"flex-grow flex items-center" + (turnIndex === 1 ? " rotate-180" : "")}>
-                    <TurnIndicator />
-                </div>
-                <Player className="" player={players[1]} />
+            <div className={"flex-1 flex items-center select-none font-bold text-[25vw] drop-shadow-xl " + (countdown <= 5 ? "text-red-600" : "")}>
+                {countdown}
+            </div>
+            <div className='w-full flex flex-wrap p-4 gap-4 justify-between'>
+                <PlayerCard isTurn={turnIndex == 0} player={players[0]} countdown={countdown} />
+                <PlayerCard isTurn={turnIndex == 1} className="" player={players[1]} countdown={countdown} mirrored={true}/>
             </div>
 
         </div>
