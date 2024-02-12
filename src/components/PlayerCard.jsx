@@ -1,9 +1,9 @@
 import ProgressBar from "./ProgressBar";
 
 
-function PlayerCard({player, countdown, mirrored, isTurn}) {
+function PlayerCard({onClick, player, countdown, mirrored, isTurn}) {
     return (
-        <div className={"p-6 md:p-10 min-w-full sm:max-w-[650px] sm:min-w-[350px] flex-1 bg-gray-900 rounded-3xl flex flex-col items-center justify-center gap-6 select-none outline outline-white" + (isTurn ? " outline-4" : " outline-0")}>
+        <div onClick={onClick} className={"p-6 md:p-10 min-w-full sm:max-w-[650px] sm:min-w-[350px] flex-1 bg-gray-900 rounded-3xl flex flex-col items-center justify-center gap-6 select-none outline outline-white" + (isTurn ? " outline-4" : " outline-0")}>
             <div className={"w-full flex gap-8 items-center justify-end flex-row-reverse" + (mirrored ? " md:flex-row" : "")}>
                 <div className="leading-none font-bold text-[48px] md:text-[96px] lg:text-[128px]">{player.score}</div>               
                 <div className="flex flex-1 justify-center leading-none text-[32px] md:text-[72px] lg:text-[90px]">{player.name}</div> 

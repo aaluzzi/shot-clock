@@ -23,21 +23,23 @@ function GameDisplay({ playerNames }) {
     const [countdown, setCountdown] = useState(60);
     const [paused, setPaused] = useState(true);
 
-    const switchTurns = () => {
+    const onScreenClick = (e) => {
+        if (!paused) {
+            setCountdown(30);
+        }
+        setPaused(paused => !paused);
+    }
+
+    const onPlayerClick = (e, playerIndex) => {
+        e.stopPropagation();
         setCountdown(30);
-        setTurnIndex(turnIndex => (turnIndex + 1) % 2);
-    };
+        setTurnIndex(playerIndex);
+        setPaused(true);
+    }
 
     const toggleTimer = (e) => {
         setPaused(prevPaused => !prevPaused);
         e.stopPropagation();
-    }
-
-    const onScreenClick = (e) => {
-        if (!paused) {
-            switchTurns();
-        }
-        toggleTimer(e);
     }
 
     const extend = (e) => {
@@ -111,8 +113,8 @@ function GameDisplay({ playerNames }) {
                 {countdown}
             </div>
             <div className='w-full flex flex-wrap p-4 gap-4 justify-between'>
-                <PlayerCard isTurn={turnIndex == 0} player={players[0]} countdown={countdown} />
-                <PlayerCard isTurn={turnIndex == 1} className="" player={players[1]} countdown={countdown} mirrored={true}/>
+                <PlayerCard onClick={(e) => onPlayerClick(e, 0)} isTurn={turnIndex == 0} player={players[0]} countdown={countdown} />
+                <PlayerCard onClick={(e) => onPlayerClick(e, 1)} isTurn={turnIndex == 1} player={players[1]} countdown={countdown} mirrored={true}/>
             </div>
 
         </div>
