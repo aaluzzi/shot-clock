@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import PlayerCard from './components/PlayerCard';
-import TurnIndicator from './components/TurnIndicator';
 import Button from './components/Button';
 import { PlusIcon, MinusIcon, PlayIcon, PauseIcon, ArrowPathIcon, ClockIcon, PowerIcon } from '@heroicons/react/24/solid';
 
@@ -46,10 +45,12 @@ function GameDisplay({ playerNames }) {
 
     const extend = (e) => {
         e.stopPropagation();
-        const newPlayers = [...players];
-        newPlayers[turnIndex].hasExtension = false;
-        setPlayers(newPlayers);
-        setCountdown(prevCountdown => prevCountdown + 30);
+        if (players[turnIndex].hasExtension) {
+            const newPlayers = [...players];
+            newPlayers[turnIndex].hasExtension = false;
+            setPlayers(newPlayers);
+            setCountdown(prevCountdown => prevCountdown + 30);
+        }
     };
 
     const reset = (e) => {
@@ -107,7 +108,7 @@ function GameDisplay({ playerNames }) {
                 <div className="flex-1 hidden sm:block"></div>
                 <Button onClick={toggleTimer} label={paused ? "Play" : "Pause"} icon={paused ? <PlayIcon className="h-full" /> : <PauseIcon className="h-[90%]" />} />
                 <Button onClick={reset} label="Reset" icon={<ArrowPathIcon className="h-full" />} />
-                <Button onClick={extend} label="Extend" icon={<ClockIcon className="h-full" />} disabled={!players[turnIndex]?.hasExtension} />
+                <Button onClick={extend} label="Extend" icon={<ClockIcon className="h-full" />} />
                 <Button onClick={restart} label="Restart" icon={<PowerIcon className="h-full" />} />
                 <div className="flex-1 hidden sm:block"></div>
                 <div className="flex order-6 sm:order-none bg-gray-900 rounded-lg">
@@ -119,8 +120,8 @@ function GameDisplay({ playerNames }) {
                 {countdown}
             </div>
             <div className='w-full flex flex-wrap p-4 gap-4 justify-between'>
-                <PlayerCard onClick={(e) => onPlayerClick(e, 0)} isTurn={turnIndex == 0} player={players[0]} countdown={countdown} />
-                <PlayerCard onClick={(e) => onPlayerClick(e, 1)} isTurn={turnIndex == 1} player={players[1]} countdown={countdown} mirrored={true}/>
+                <PlayerCard extend={extend} onClick={(e) => onPlayerClick(e, 0)} isTurn={turnIndex == 0} player={players[0]} countdown={countdown} />
+                <PlayerCard extend={extend} onClick={(e) => onPlayerClick(e, 1)} isTurn={turnIndex == 1} player={players[1]} countdown={countdown} mirrored={true}/>
             </div>
 
         </div>
