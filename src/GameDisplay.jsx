@@ -32,9 +32,11 @@ function GameDisplay({ playerNames }) {
 
     const onPlayerClick = (e, playerIndex) => {
         e.stopPropagation();
-        setCountdown(30);
-        setTurnIndex(playerIndex);
-        setPaused(true);
+        if (playerIndex !== turnIndex) {
+            setCountdown(30);
+            setTurnIndex(playerIndex);
+            setPaused(true);
+        }
     }
 
     const toggleTimer = (e) => {
