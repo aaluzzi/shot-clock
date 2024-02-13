@@ -97,19 +97,19 @@ function GameDisplay({ playerNames }) {
 
     return (
         <div onClick={(e) => onScreenClick(e)} className="h-screen m-auto flex flex-col items-center ">
-            <div className="align-center justify-center top-0 w-[300px] md:w-full flex flex-wrap p-3 gap-2">
-                <Button className="order-5 md:order-none" onClick={(e) => decreaseScore(e, 0)} icon={<MinusIcon className="h-full" />} />
-                <Button className="order-6 md:order-none" onClick={(e) => increaseScore(e, 0)} icon={<PlusIcon className="h-full" />} />
-                <div className="flex-1 hidden md:block"></div>
+            <div className="align-center justify-center top-0 w-[300px] sm:w-full flex flex-wrap p-3 gap-2">
+                <Button className="order-5 sm:order-none" onClick={(e) => decreaseScore(e, 0)} icon={<MinusIcon className="h-full" />} />
+                <Button className="order-6 sm:order-none" onClick={(e) => increaseScore(e, 0)} icon={<PlusIcon className="h-full" />} />
+                <div className="flex-1 hidden sm:block"></div>
                 <Button onClick={toggleTimer} label={paused ? "Play" : "Pause"} icon={paused ? <PlayIcon className="h-full" /> : <PauseIcon className="h-[90%]" />} />
                 <Button onClick={reset} label="Reset" icon={<ArrowPathIcon className="h-full" />} />
                 <Button onClick={extend} label="Extend" icon={<ClockIcon className="h-full" />} disabled={!players[turnIndex]?.hasExtension} />
                 <Button onClick={restart} label="Restart" icon={<PowerIcon className="h-full" />} />
-                <div className="flex-1 hidden md:block"></div>
-                <Button className="order-7 md:order-none" onClick={(e) => decreaseScore(e, 1)} icon={<MinusIcon className="h-full" />} />
-                <Button className="order-8 md:order-none" onClick={(e) => increaseScore(e, 1)} icon={<PlusIcon className="h-full" />} />
+                <div className="flex-1 hidden sm:block"></div>
+                <Button className="order-7 sm:order-none" onClick={(e) => decreaseScore(e, 1)} icon={<MinusIcon className="h-full" />} />
+                <Button className="order-8 sm:order-none" onClick={(e) => increaseScore(e, 1)} icon={<PlusIcon className="h-full" />} />
             </div>
-            <div className={"flex-1 flex items-center select-none font-bold text-[25vmax] drop-shadow-xl " + (countdown <= 5 ? "text-red-600" : "")}>
+            <div className={"flex-1 flex items-center select-none font-bold text-[128px] lg:text-[256px]  " + (countdown <= 5 ? "text-red-600" : "")}>
                 {countdown}
             </div>
             <div className='w-full flex flex-wrap p-4 gap-4 justify-between'>
