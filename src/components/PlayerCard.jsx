@@ -16,7 +16,7 @@ function PlayerCard({extend, onClick, player, countdown, mirrored, isTurn}) {
             </div>
             
             <div className={"flex w-full"}>
-                <div onClick={onExtendClick} className={"p-1 aspect-square rounded-md shadow-md flex items-center justify-center transition-colors text-lg md:text-2xl " 
+                <div onClick={onExtendClick} className={"py-1 px-2 aspect-square rounded-md shadow-md flex items-center justify-center transition-colors text-lg md:text-2xl " 
                     + (player.hasExtension ? "bg-green-600" : "bg-red-800")}>EX</div>
                 <ProgressBar className="flex-1 rounded-md h-full" percentage={isTurn ? Math.floor(countdown / 30 * 100) : 0} /> 
             </div>
