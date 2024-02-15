@@ -1,7 +1,9 @@
-function InputForm({setPlayerNames}) {
+function InputForm({setPlayerNames, setRoomCode}) {
     const onSubmitForm = (e) => {
         e.preventDefault();
         setPlayerNames([e.target[0].value, e.target[1].value]);
+        setRoomCode(e.target[2].value.toLowerCase());
+        window.history.pushState({}, '', '/' + e.target[2].value.toLowerCase());
     }
 
     return (
@@ -11,6 +13,7 @@ function InputForm({setPlayerNames}) {
                 <input className="p-2 text-base rounded-md bg-neutral-700" type="text" required placeholder="Player 1 Name" />
                 <div className="font-bold">VS.</div>
                 <input className="p-2 text-base rounded-md bg-neutral-700" type="text" required placeholder="Player 2 Name" />
+                <input className="p-2 text-base rounded-md bg-neutral-700" type="text" required placeholder="Connect code" />
                 <button type="submit" className={"h-12 rounded-lg shadow-sm border border-transparent px-4 py-2.5 font-medium bg-gray-900 text-white cursor-pointer transition-colors duration-200 hover:border-indigo-500 focus:outline-none select-none"}>
                     Create
                 </button>

@@ -3,11 +3,11 @@ import PlayerCard from './components/PlayerCard';
 import Button from './components/Button';
 import { PlusIcon, MinusIcon, PlayIcon, PauseIcon, ArrowPathIcon, ClockIcon, PowerIcon } from '@heroicons/react/24/solid';
 
-function GameDisplay({ playerNames }) {
+function GameDisplay({ socket, playerNames }) {
     const timerWarnAudio = new Audio('./timer_warn.wav');
     const timerEndAudio = new Audio('./timer_end.wav');
 
-    const [players, setPlayers] = useState([
+    const [players, setPlayersState] = useState([
         {
             name: playerNames[0],
             hasExtension: true,
@@ -18,15 +18,33 @@ function GameDisplay({ playerNames }) {
             hasExtension: true,
             score: 0,
         }]);
-    const [turnIndex, setTurnIndex] = useState(0);
-    const [countdown, setCountdown] = useState(60);
-    const [paused, setPaused] = useState(true);
+    const [turnIndex, setTurnIndexState] = useState(0);
+    const [countdown, setCountdownState] = useState(60);
+    const [paused, setPausedState] = useState(true);
+
+    //Socket wrapper functions
+    const setPlayers = (players) => {
+        setPlayersState(players);
+        socket?.emit('update-players', players);
+    }
+    const setTurnIndex = (turnIndex) => {
+        setTurnIndexState(turnIndex);
+        socket?.emit('update-turn', turnIndex);
+    };
+    const setCountdown = (countdown) => {
+        setCountdownState(countdown);
+        socket?.emit('update-countdown', countdown);
+    }
+    const setPaused = (paused) => {
+        setPausedState(paused);
+        socket?.emit('update-paused', paused);
+    }
 
     const onScreenClick = (e) => {
         if (!paused) {
             setCountdown(30);
         }
-        setPaused(paused => !paused);
+        setPaused(!paused);
     }
 
     const onPlayerClick = (e, playerIndex) => {
@@ -39,7 +57,7 @@ function GameDisplay({ playerNames }) {
     }
 
     const toggleTimer = (e) => {
-        setPaused(prevPaused => !prevPaused);
+        setPaused(!paused);
         e.stopPropagation();
     }
 
@@ -49,7 +67,7 @@ function GameDisplay({ playerNames }) {
             const newPlayers = [...players];
             newPlayers[turnIndex].hasExtension = false;
             setPlayers(newPlayers);
-            setCountdown(prevCountdown => prevCountdown + 30);
+            setCountdown(countdown + 30);
         }
     };
 
@@ -89,6 +107,7 @@ function GameDisplay({ playerNames }) {
         const intervalId = setInterval(() => {
             setCountdown(countdown - 1);
             if (countdown - 1 == 0) {
+                setPaused(true);
                 timerEndAudio.play();
             } else if (countdown - 1 <= 5) {
                 timerWarnAudio.play();
