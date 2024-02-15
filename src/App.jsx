@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import ControllerGameDisplay from './ControllerGameDisplay';
 import InputForm from './InputForm';
 import { socket } from './socket';
+import ListenerGameDisplay from './ListenerGameDisplay';
 
 
 function getRoomCode() {
@@ -18,6 +19,8 @@ function App() {
   const [playerNames, setPlayerNames] = useState([]);
   const [roomCode, setRoomCode] = useState(getRoomCode());
   const [socketState, setSocketState] = useState(null);
+  const [isController, setIsController] = useState(false);
+  const [initialData, setInitialData] = useState(null);
 
   useEffect(() => {
     if (roomCode.length > 0) {
@@ -30,14 +33,39 @@ function App() {
         socket.emit('join', roomCode);
       })
 
+      socket.on('confirm-controller', () => {
+        console.log('controller confirmed');
+        setIsController(true);
+        socket.emit('update-players', [
+          {
+              name: playerNames[0],
+              hasExtension: true,
+              score: 0,
+          },
+          {
+              name: playerNames[1],
+              hasExtension: true,
+              score: 0,
+          }])
+      });
+
+      socket.on('receive-data', initialData => {
+        setInitialData(initialData);
+        console.log(initialData);
+      });
+
       return () => {
         socket.off('connect');
+        socket.off('confirm-controller');
+        socket.off('receive-data');
       }
     }
   }, [roomCode]);
 
-  if (playerNames.length > 0) {
+  if (isController && playerNames.length > 0) {
     return <ControllerGameDisplay socket={socketState?.connected ? socketState : null} playerNames={playerNames} />
+  } else if (initialData) {
+    return <ListenerGameDisplay socket={socketState} initialData={initialData} />
   } else {
     return <InputForm setRoomCode={setRoomCode} setPlayerNames={setPlayerNames} />
   }

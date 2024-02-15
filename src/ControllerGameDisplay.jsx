@@ -3,7 +3,7 @@ import PlayerCard from './components/PlayerCard';
 import Button from './components/Button';
 import { PlusIcon, MinusIcon, PlayIcon, PauseIcon, ArrowPathIcon, ClockIcon, PowerIcon } from '@heroicons/react/24/solid';
 
-function GameDisplay({ socket, playerNames }) {
+function ControllerGameDisplay({ socket, playerNames }) {
     const timerWarnAudio = new Audio('./timer_warn.wav');
     const timerEndAudio = new Audio('./timer_end.wav');
 
@@ -141,4 +141,4 @@ function GameDisplay({ socket, playerNames }) {
     )
 }
 
-export default GameDisplay;
+export default ControllerGameDisplay;
