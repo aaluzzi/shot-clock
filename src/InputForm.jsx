@@ -3,7 +3,9 @@ function InputForm({setPlayerNames, setRoomCode}) {
         e.preventDefault();
         setPlayerNames([e.target[0].value, e.target[1].value]);
         setRoomCode(e.target[2].value.toLowerCase());
-        window.history.pushState({}, '', '/' + e.target[2].value.toLowerCase());
+        const params = new URLSearchParams();
+        params.set('c', e.target[2].value.toLowerCase());
+        window.history.pushState(null, '', `?${params.toString()}`);
     }
 
     return (

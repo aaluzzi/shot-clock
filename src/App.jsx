@@ -7,12 +7,9 @@ import ListenerGameDisplay from './ListenerGameDisplay';
 
 
 function getRoomCode() {
-  const url = window.location.href.split('/');
-  const lastPart = url[url.length - 1];
-  if (lastPart !== 'localhost:5173' || lastPart !== 'shot-clock.netlify.app') {
-    return lastPart;
-  }
-  return '';
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('c');
+  return code;
 }
 
 function App() {
@@ -23,7 +20,7 @@ function App() {
   const [initialData, setInitialData] = useState(null);
 
   useEffect(() => {
-    if (roomCode.length > 0) {
+    if (roomCode) {
       console.log("Connecting with socket");
       socket.connect();
 
