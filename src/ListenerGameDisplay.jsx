@@ -8,7 +8,6 @@ function ListenerGameDisplay({ socket, initialData }) {
     const [players, setPlayers] = useState(initialData.players);
     const [turnIndex, setTurnIndex] = useState(initialData.turnIndex);
     const [countdown, setCountdown] = useState(initialData.countdown);
-    const [paused, setPaused] = useState(initialData.paused);
 
     useEffect(() => {
         socket.on('update-players', players => {
@@ -28,65 +27,12 @@ function ListenerGameDisplay({ socket, initialData }) {
             }
         });
 
-        socket.on('update-paused', paused => {
-            setPaused(paused);
-        });
-
         return () => {
             socket.off('update-players');
             socket.off('update-turn');
             socket.off('update-countdown');
-            socket.off('update-paused');
         }
     }, []);
-
-
-    const toggleTimer = (e) => {
-        setPaused(!paused);
-        e.stopPropagation();
-    }
-
-    const extend = (e) => {
-        e.stopPropagation();
-        if (players[turnIndex].hasExtension) {
-            const newPlayers = [...players];
-            newPlayers[turnIndex].hasExtension = false;
-            setPlayers(newPlayers);
-            setCountdown(countdown + 30);
-        }
-    };
-
-    const reset = (e) => {
-        e.stopPropagation();
-        setPaused(true);
-        setCountdown(30);
-    }
-
-    const restart = (e) => {
-        e.stopPropagation();
-        setPaused(true);
-        setCountdown(60);
-        const newPlayers = [...players];
-        newPlayers[0].hasExtension = true;
-        newPlayers[1].hasExtension = true;
-        setPlayers(newPlayers);
-    }
-
-    /*useEffect(() => {
-        if (paused || countdown <= 0) return;
-
-        const intervalId = setInterval(() => {
-            setCountdown(countdown - 1);
-            if (countdown - 1 == 0) {
-                setPaused(true);
-                timerEndAudio.play();
-            } else if (countdown - 1 <= 5) {
-                timerWarnAudio.play();
-            }
-        }, 1000);
-
-        return () => clearInterval(intervalId);
-    }, [paused, countdown]);*/
 
     if (players) {
         return (
@@ -95,8 +41,8 @@ function ListenerGameDisplay({ socket, initialData }) {
                     {countdown}
                 </div>
                 <div className='w-full flex flex-wrap p-4 gap-4 justify-between'>
-                    <PlayerCard extend={extend} isTurn={turnIndex == 0} player={players[0]} countdown={countdown} />
-                    <PlayerCard extend={extend} isTurn={turnIndex == 1} player={players[1]} countdown={countdown} mirrored={true} />
+                    <PlayerCard extend={() => {}} isTurn={turnIndex == 0} player={players[0]} countdown={countdown} />
+                    <PlayerCard extend={() => {}} isTurn={turnIndex == 1} player={players[1]} countdown={countdown} mirrored={true} />
                 </div>
 
             </div>
