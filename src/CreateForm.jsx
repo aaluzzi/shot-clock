@@ -1,4 +1,4 @@
-function InputForm({setShowForm, setPlayerNames, setRoomCode}) {
+function CreateForm({setShowForm, setPlayerNames, setRoomCode}) {
     const onSubmitForm = (e) => {
         e.preventDefault();
         setPlayerNames([e.target[0].value, e.target[1].value]);
@@ -30,4 +30,4 @@ function InputForm({setShowForm, setPlayerNames, setRoomCode}) {
     );
 }
 
-export default InputForm;
+export default CreateForm;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import ControllerGameDisplay from './ControllerGameDisplay';
-import InputForm from './InputForm';
+import CreateForm from './CreateForm';
 import StartMenu from './StartMenu';
 import { socket } from './socket';
 import ListenerGameDisplay from './ListenerGameDisplay';
@@ -69,7 +69,7 @@ function App() {
   } else if (initialData) {
     return <ListenerGameDisplay socket={socketState} initialData={initialData} />
   } else if (showForm) {
-    return <InputForm setShowForm={setShowForm} setRoomCode={setRoomCode} setPlayerNames={setPlayerNames} />
+    return <CreateForm setShowForm={setShowForm} setRoomCode={setRoomCode} setPlayerNames={setPlayerNames} />
   } else {
     return <StartMenu socket={socketState} setRoomCode={setRoomCode} setShowForm={setShowForm} />
   }
