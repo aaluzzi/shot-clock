@@ -54,7 +54,6 @@ function App() {
 
       socket.on('receive-data', initialData => {
         setInitialData(initialData);
-        console.log(initialData);
       });
 
       return () => {
@@ -70,7 +69,7 @@ function App() {
   } else if (initialData) {
     return <ListenerGameDisplay socket={socketState} initialData={initialData} />
   } else if (showForm) {
-    return <InputForm setRoomCode={setRoomCode} setPlayerNames={setPlayerNames} />
+    return <InputForm setShowForm={setShowForm} setRoomCode={setRoomCode} setPlayerNames={setPlayerNames} />
   } else {
     return <StartMenu socket={socketState} setRoomCode={setRoomCode} setShowForm={setShowForm} />
   }
