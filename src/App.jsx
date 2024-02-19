@@ -29,23 +29,27 @@ function App() {
       socket.on('connect', () => {
         setSocketState(socket);
         console.log("connected, joining room " + roomCode);
-        socket.emit('join', roomCode);
+        if (playerNames.length > 0) {
+          socket.emit('join', roomCode, [
+            {
+                name: playerNames[0],
+                hasExtension: true,
+                score: 0,
+            },
+            {
+                name: playerNames[1],
+                hasExtension: true,
+                score: 0,
+            }]);
+        } else {
+          socket.emit('join', roomCode);
+        }
+        
       })
 
       socket.on('confirm-controller', () => {
         console.log('controller confirmed');
         setIsController(true);
-        socket.emit('update-players', [
-          {
-              name: playerNames[0],
-              hasExtension: true,
-              score: 0,
-          },
-          {
-              name: playerNames[1],
-              hasExtension: true,
-              score: 0,
-          }])
       });
 
       socket.on('receive-data', initialData => {
@@ -68,7 +72,7 @@ function App() {
   } else if (showForm) {
     return <InputForm setRoomCode={setRoomCode} setPlayerNames={setPlayerNames} />
   } else {
-    return <StartMenu setRoomCode={setRoomCode} setShowForm={setShowForm} />
+    return <StartMenu socket={socketState} setRoomCode={setRoomCode} setShowForm={setShowForm} />
   }
 }
 
