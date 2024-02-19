@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 import ControllerGameDisplay from './ControllerGameDisplay';
 import InputForm from './InputForm';
+import StartMenu from './StartMenu';
 import { socket } from './socket';
 import ListenerGameDisplay from './ListenerGameDisplay';
 
@@ -18,6 +19,7 @@ function App() {
   const [socketState, setSocketState] = useState(null);
   const [isController, setIsController] = useState(false);
   const [initialData, setInitialData] = useState(null);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     if (roomCode) {
@@ -26,7 +28,7 @@ function App() {
 
       socket.on('connect', () => {
         setSocketState(socket);
-        console.log("connected, joining room " + roomCode)
+        console.log("connected, joining room " + roomCode);
         socket.emit('join', roomCode);
       })
 
@@ -63,8 +65,10 @@ function App() {
     return <ControllerGameDisplay socket={socketState?.connected ? socketState : null} playerNames={playerNames} />
   } else if (initialData) {
     return <ListenerGameDisplay socket={socketState} initialData={initialData} />
-  } else {
+  } else if (showForm) {
     return <InputForm setRoomCode={setRoomCode} setPlayerNames={setPlayerNames} />
+  } else {
+    return <StartMenu setRoomCode={setRoomCode} setShowForm={setShowForm} />
   }
 }
 
