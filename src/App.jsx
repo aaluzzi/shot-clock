@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import ControllerGameDisplay from './ControllerGameDisplay';
 import CreateForm from './CreateForm';
 import StartMenu from './StartMenu';
-import { socket } from './socket';
+import { getSocket } from './socket';
 import ListenerGameDisplay from './ListenerGameDisplay';
 
 
@@ -14,6 +14,7 @@ function getRoomCode() {
 }
 
 function App() {
+  const socket = getSocket();
   const [playerNames, setPlayerNames] = useState([]);
   const [roomCode, setRoomCode] = useState(getRoomCode());
   const [socketState, setSocketState] = useState(null);
