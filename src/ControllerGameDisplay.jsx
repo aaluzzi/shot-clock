@@ -107,7 +107,7 @@ function ControllerGameDisplay({ socket, initialData }) {
         return () => clearInterval(intervalId);
     }, [paused, countdown]);
 
-    if (countdown && players) {
+    if (players) {
         return (
             <div onClick={(e) => onScreenClick(e)} className="h-screen m-auto flex flex-col items-center ">
                 <div className="align-center justify-center flex flex-wrap p-4 gap-2">
