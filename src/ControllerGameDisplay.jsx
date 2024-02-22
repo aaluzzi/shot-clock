@@ -3,23 +3,13 @@ import PlayerCard from './components/PlayerCard';
 import Button from './components/Button';
 import { PlusIcon, MinusIcon, PlayIcon, PauseIcon, ArrowPathIcon, ClockIcon, PowerIcon } from '@heroicons/react/24/solid';
 
-function ControllerGameDisplay({ socket, playerNames }) {
+function ControllerGameDisplay({ socket, initialData }) {
     const timerWarnAudio = new Audio('./timer_warn.wav');
     const timerEndAudio = new Audio('./timer_end.wav');
 
-    const [players, setPlayersState] = useState([
-        {
-            name: playerNames[0],
-            hasExtension: true,
-            score: 0,
-        },
-        {
-            name: playerNames[1],
-            hasExtension: true,
-            score: 0,
-        }]);
-    const [turnIndex, setTurnIndexState] = useState(0);
-    const [countdown, setCountdownState] = useState(60);
+    const [players, setPlayersState] = useState(initialData.players);
+    const [turnIndex, setTurnIndexState] = useState(initialData.turnIndex);
+    const [countdown, setCountdownState] = useState(initialData.countdown);
     const [paused, setPausedState] = useState(true);
 
     //Socket wrapper functions
@@ -117,28 +107,32 @@ function ControllerGameDisplay({ socket, playerNames }) {
         return () => clearInterval(intervalId);
     }, [paused, countdown]);
 
-    return (
-        <div onClick={(e) => onScreenClick(e)} className="h-screen m-auto flex flex-col items-center ">
-            <div className="align-center justify-center flex flex-wrap p-4 gap-2">
-                <Button onClick={toggleTimer} label={paused ? "Play" : "Pause"} icon={paused ? <PlayIcon className="h-full" /> : <PauseIcon className="h-[90%]" />} />
-                <Button onClick={reset} label="Reset" icon={<ArrowPathIcon className="h-full" />} />
-                <Button onClick={extend} label="Extend" icon={<ClockIcon className="h-full" />} />
-                <Button onClick={restart} label="Restart" icon={<PowerIcon className="h-full" />} />
-                <div className="flex  bg-gray-900 rounded-lg">
-                    <Button onClick={(e) => decreaseScore(e, turnIndex)} icon={<MinusIcon className="h-full" />} />
-                    <Button onClick={(e) => increaseScore(e, turnIndex)} icon={<PlusIcon className="h-full" />} />
+    if (countdown && players) {
+        return (
+            <div onClick={(e) => onScreenClick(e)} className="h-screen m-auto flex flex-col items-center ">
+                <div className="align-center justify-center flex flex-wrap p-4 gap-2">
+                    <Button onClick={toggleTimer} label={paused ? "Play" : "Pause"} icon={paused ? <PlayIcon className="h-full" /> : <PauseIcon className="h-[90%]" />} />
+                    <Button onClick={reset} label="Reset" icon={<ArrowPathIcon className="h-full" />} />
+                    <Button onClick={extend} label="Extend" icon={<ClockIcon className="h-full" />} />
+                    <Button onClick={restart} label="Restart" icon={<PowerIcon className="h-full" />} />
+                    <div className="flex  bg-gray-900 rounded-lg">
+                        <Button onClick={(e) => decreaseScore(e, turnIndex)} icon={<MinusIcon className="h-full" />} />
+                        <Button onClick={(e) => increaseScore(e, turnIndex)} icon={<PlusIcon className="h-full" />} />
+                    </div>
                 </div>
+                <div className={"flex-1 flex items-center select-none font-bold text-[128px] lg:text-[256px]  " + (countdown <= 5 ? "text-red-600" : "")}>
+                    {countdown}
+                </div>
+                <div className='w-full flex flex-wrap p-4 gap-4 justify-between'>
+                    <PlayerCard extend={extend} onClick={(e) => onPlayerClick(e, 0)} isTurn={turnIndex == 0} player={players[0]} countdown={countdown} />
+                    <PlayerCard extend={extend} onClick={(e) => onPlayerClick(e, 1)} isTurn={turnIndex == 1} player={players[1]} countdown={countdown} mirrored={true}/>
+                </div>
+    
             </div>
-            <div className={"flex-1 flex items-center select-none font-bold text-[128px] lg:text-[256px]  " + (countdown <= 5 ? "text-red-600" : "")}>
-                {countdown}
-            </div>
-            <div className='w-full flex flex-wrap p-4 gap-4 justify-between'>
-                <PlayerCard extend={extend} onClick={(e) => onPlayerClick(e, 0)} isTurn={turnIndex == 0} player={players[0]} countdown={countdown} />
-                <PlayerCard extend={extend} onClick={(e) => onPlayerClick(e, 1)} isTurn={turnIndex == 1} player={players[1]} countdown={countdown} mirrored={true}/>
-            </div>
-
-        </div>
-    )
+        );
+    
+    }
+    return <></>
 }
 
 export default ControllerGameDisplay;

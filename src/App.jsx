@@ -15,10 +15,9 @@ function getRoomCode() {
 
 function App() {
   const socket = getSocket();
-  const [playerNames, setPlayerNames] = useState([]);
   const [roomCode, setRoomCode] = useState(getRoomCode());
   const [socketState, setSocketState] = useState(null);
-  const [isController, setIsController] = useState(false);
+  const [role, setRole] = useState('');
   const [initialData, setInitialData] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
@@ -30,27 +29,15 @@ function App() {
       socket.on('connect', () => {
         setSocketState(socket);
         console.log("connected, joining room " + roomCode);
-        if (playerNames.length > 0) {
-          socket.emit('join', roomCode, [
-            {
-                name: playerNames[0],
-                hasExtension: true,
-                score: 0,
-            },
-            {
-                name: playerNames[1],
-                hasExtension: true,
-                score: 0,
-            }]);
+        if (initialData) {
+          socket.emit('join', roomCode, initialData);
         } else {
           socket.emit('join', roomCode);
         }
-        
       })
 
-      socket.on('confirm-controller', () => {
-        console.log('controller confirmed');
-        setIsController(true);
+      socket.on('receive-role', (role) => {
+        setRole(role) 
       });
 
       socket.on('receive-data', initialData => {
@@ -59,18 +46,18 @@ function App() {
 
       return () => {
         socket.off('connect');
-        socket.off('confirm-controller');
+        socket.off('receive-role');
         socket.off('receive-data');
       }
     }
   }, [roomCode]);
 
-  if (isController && playerNames.length > 0) {
-    return <ControllerGameDisplay socket={socketState?.connected ? socketState : null} playerNames={playerNames} />
-  } else if (initialData) {
+  if (role === 'controller' && initialData) {
+    return <ControllerGameDisplay socket={socketState?.connected ? socketState : null} initialData={initialData} />
+  } else if (role === 'listener' && initialData) {
     return <ListenerGameDisplay socket={socketState} initialData={initialData} />
   } else if (showForm) {
-    return <CreateForm setShowForm={setShowForm} setRoomCode={setRoomCode} setPlayerNames={setPlayerNames} />
+    return <CreateForm setShowForm={setShowForm} setRoomCode={setRoomCode} setInitialData={setInitialData} />
   } else {
     return <StartMenu socket={socketState} setRoomCode={setRoomCode} setShowForm={setShowForm} />
   }

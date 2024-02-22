@@ -1,7 +1,21 @@
-function CreateForm({setShowForm, setPlayerNames, setRoomCode}) {
+function CreateForm({setShowForm, setInitialData, setRoomCode}) {
     const onSubmitForm = (e) => {
         e.preventDefault();
-        setPlayerNames([e.target[0].value, e.target[1].value]);
+        setInitialData({
+            players: [
+                {
+                  name: e.target[0].value,
+                  hasExtension: true,
+                  score: 0,
+              },
+              {
+                  name: e.target[1].value,
+                  hasExtension: true,
+                  score: 0,
+              }],
+              countdown: 60,
+              turnIndex: 0,
+        });
         setRoomCode(e.target[2].value.toLowerCase());
         const params = new URLSearchParams();
         params.set('c', e.target[2].value.toLowerCase());
