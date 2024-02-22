@@ -109,7 +109,7 @@ function ControllerGameDisplay({ socket, initialData }) {
 
     if (players) {
         return (
-            <div onClick={(e) => onScreenClick(e)} className="h-screen m-auto flex flex-col items-center ">
+            <div onClick={(e) => onScreenClick(e)} className="h-full flex flex-col items-center ">
                 <div className="align-center justify-center flex flex-wrap p-4 gap-2">
                     <Button onClick={toggleTimer} label={paused ? "Play" : "Pause"} icon={paused ? <PlayIcon className="h-full" /> : <PauseIcon className="h-[90%]" />} />
                     <Button onClick={reset} label="Reset" icon={<ArrowPathIcon className="h-full" />} />

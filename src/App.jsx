@@ -40,7 +40,7 @@ function App() {
         setRole(role) 
       });
 
-      socket.on('receive-data', initialData => {
+      socket.on('receive-data', (initialData) => {
         setInitialData(initialData);
       });
 

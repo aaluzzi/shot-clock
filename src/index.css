@@ -4,7 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+html,body,#root {
+  height: 100%;
+}
+
 :root {
+  height: 100%;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.87);
@@ -14,11 +19,4 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-@supports (-webkit-touch-callout: none) {
-  .h-screen {
-    height: 100vh;
-    max-height: -webkit-fill-available !important;
-  }
 }

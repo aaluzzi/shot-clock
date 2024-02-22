@@ -23,7 +23,7 @@ function CreateForm({setShowForm, setInitialData, setRoomCode}) {
     }
 
     return (
-        <div className="h-screen m-auto flex flex-col items-center justify-center gap-8">
+        <div className="h-full flex flex-col items-center justify-center gap-8">
             <h1 className="text-5xl font-bold">New Clock</h1>
             <form onSubmit={onSubmitForm} className="flex flex-col items-center justify-center gap-4"> 
                 <input className="p-2 text-base rounded-md bg-neutral-700" type="text" maxLength="32" required placeholder="Player 1 Name" />

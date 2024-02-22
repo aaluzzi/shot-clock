@@ -36,7 +36,7 @@ function ListenerGameDisplay({ socket, initialData }) {
 
     if (players) {
         return (
-            <div className="h-screen m-auto flex flex-col items-center ">
+            <div className="h-full flex flex-col items-center">
                 <div className={"flex-1 flex items-center select-none font-bold text-[160px] lg:text-[365px]  " + (countdown <= 5 ? "text-red-600" : "")}>
                     {countdown}
                 </div>

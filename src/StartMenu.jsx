@@ -29,7 +29,7 @@ function StartMenu({socket, setRoomCode, setShowForm}) {
     }
 
     return (
-        <div className="h-screen m-auto flex flex-col items-center justify-center gap-6">
+        <div className="h-full flex flex-col items-center justify-center gap-6">
             <h1 className="text-5xl font-bold">Shot Clock</h1>
             <button onClick={() => setShowForm(true)} className={"h-12 rounded-lg shadow-sm border border-transparent px-4 py-2.5 font-medium bg-gray-900 text-white cursor-pointer transition-colors duration-200 hover:border-indigo-500 focus:outline-none select-none"}>
                 Create Clock
