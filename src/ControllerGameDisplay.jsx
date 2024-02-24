@@ -115,7 +115,7 @@ function ControllerGameDisplay({ socket, initialData }) {
                     <Button onClick={reset} label="Reset" icon={<ArrowPathIcon className="h-full" />} />
                     <Button onClick={extend} label="Extend" icon={<ClockIcon className="h-full" />} />
                     <Button onClick={restart} label="Restart" icon={<PowerIcon className="h-full" />} />
-                    <div className="flex  bg-gray-900 rounded-lg">
+                    <div className="flex bg-zinc-800 rounded-lg">
                         <Button onClick={(e) => decreaseScore(e, turnIndex)} icon={<MinusIcon className="h-full" />} />
                         <Button onClick={(e) => increaseScore(e, turnIndex)} icon={<PlusIcon className="h-full" />} />
                     </div>
