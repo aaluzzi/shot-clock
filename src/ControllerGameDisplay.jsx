@@ -40,7 +40,9 @@ function ControllerGameDisplay({ socket, initialData }) {
     const onPlayerClick = (e, playerIndex) => {
         e.stopPropagation();
         if (playerIndex !== turnIndex) {
-            setCountdown(30);
+            if (countdown !== 60 || !paused || !players[turnIndex].hasExtension) {
+                setCountdown(30);
+            }
             setTurnIndex(playerIndex);
             setPaused(true);
         }
