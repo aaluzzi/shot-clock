@@ -88,9 +88,11 @@ function ControllerGameDisplay({ socket, initialData }) {
 
     const decreaseScore = (e, playerIndex) => {
         e.stopPropagation();
-        const newPlayers = [...players];
-        newPlayers[playerIndex].score = Math.max(0, newPlayers[playerIndex].score - 1);
-        setPlayers(newPlayers);
+        if (players[playerIndex].score > 0) {
+            const newPlayers = [...players];
+            newPlayers[playerIndex].score = newPlayers[playerIndex].score - 1;
+            setPlayers(newPlayers);
+        }
     }
 
     useEffect(() => {
